@@ -25,23 +25,15 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib")
 	implementation("org.springframework.cloud:spring-cloud-function-kotlin")
+	implementation("org.springframework.cloud:spring-cloud-function-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.springframework.cloud:spring-cloud-stream")
-	implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
+	implementation("org.springframework.boot:spring-boot-starter-web")
 
 	testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
 	testImplementation("io.kotest:kotest-extensions-spring:$kotestVersion")
 	testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 	testImplementation("io.kotest:kotest-property:$kotestVersion")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.springframework.cloud:spring-cloud-stream") {
-		artifact {
-			name = "spring-cloud-stream"
-			extension = "jar"
-			type ="test-jar"
-			classifier = "test-binder"
-		}
-	}
 }
 
 dependencyManagement {
