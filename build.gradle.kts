@@ -16,18 +16,26 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 repositories {
 	mavenCentral()
 	maven { url = uri("https://repo.spring.io/milestone") }
+	maven {url = uri("https://packages.confluent.io/maven/")}
 }
 
 extra["springCloudVersion"] = "2020.0.0"
 
 dependencies {
-	implementation("org.apache.kafka:kafka-streams")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib")
-	implementation("org.springframework.cloud:spring-cloud-function-kotlin")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+	implementation("org.apache.kafka:kafka-streams")
+	implementation("io.confluent:kafka-avro-serializer:5.3.0")
+
 	implementation("org.springframework.cloud:spring-cloud-stream")
+	implementation("org.springframework.cloud:spring-cloud-schema-registry-client")
+	implementation("org.springframework.cloud:spring-cloud-function-kotlin")
 	implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
+
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+
 
 	testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
 	testImplementation("io.kotest:kotest-extensions-spring:$kotestVersion")

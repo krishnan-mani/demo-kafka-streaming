@@ -1,9 +1,13 @@
 package com.example.hilentityselection
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import org.apache.avro.Schema
+import org.apache.avro.generic.GenericData
+import org.apache.avro.generic.GenericRecord
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cloud.schema.registry.client.ConfluentSchemaRegistryClient
+import org.springframework.cloud.schema.registry.client.EnableSchemaRegistryClient
+import org.springframework.cloud.schema.registry.client.SchemaRegistryClient
 import org.springframework.context.annotation.Bean
 import reactor.core.publisher.Flux
 import reactor.util.function.Tuple2
@@ -12,15 +16,16 @@ import java.util.function.Function
 
 
 @SpringBootApplication
+//@EnableSchemaRegistryClient
 class HilEntitySelectionApplication{
 
 	@Bean
-	fun singleInputMultipleOutputs(): Function<Flux<Entity>, Tuple2<Flux<Entity>, Flux<Entity>>>? {
-		return Function { flux: Flux<Entity> ->
+	fun singleInputMultipleOutputs(): Function<Flux<GenericRecord>, Tuple2<Flux<GenericRecord>, Flux<GenericRecord>>>? {
+		return Function { flux: Flux<GenericRecord> ->
 			val connectedFlux = flux.publish().autoConnect(2)
-			val passedFlux = connectedFlux.filter { it.score > 80 }
-			val failedFlux = connectedFlux.filter { it.score <= 80 }
-
+			val passedFlux = connectedFlux.filter { it.get("score") as Int > 80 }
+			val failedFlux = connectedFlux.filter { it.get("score") as Int <= 80 }
+			print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 			Tuples.of(
 				passedFlux, failedFlux
 			)
@@ -28,11 +33,14 @@ class HilEntitySelectionApplication{
 	}
 
 	@Bean
-	fun objectMapperBuilder(): ObjectMapper = ObjectMapper().registerKotlinModule()
-
+	fun schemaRegistryClient(): SchemaRegistryClient {
+		val client = ConfluentSchemaRegistryClient()
+		client.setEndpoint("http://localhost:8081")
+		return client
+	}
 }
 
-data class Entity(val name: String, val score: Int)
+
 
 fun main(args: Array<String>) {
 	runApplication<HilEntitySelectionApplication>(*args)
