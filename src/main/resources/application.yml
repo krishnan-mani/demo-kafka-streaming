@@ -6,26 +6,26 @@ spring:
       default:
         producer:
           useNativeEncoding: true
+        consumer:
+          useNativeDecoding: true
       kafka:
         binder:
-#          consumer-properties:
-#            value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-#            schema.registry.url: http://localhost:8081
+          consumer-properties:
+            value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            schema.registry.url: http://localhost:8081
           producer-properties:
             value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
             key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
             schema.registry.url: http://localhost:8081
       bindings:
-#        singleInputMultipleOutputs-in-0:
-#          consumer:
-#            use-native-encoding: true
-#          destination: author-extracted
-#          content-type: application/*+avro
-#          group: entity-selector
-#          concurrency: 1
+        singleInputMultipleOutputs-in-0:
+          destination: author-extracted
+          content-type: application/*+avro
+          group: entity-selector
+          concurrency: 1
         singleInputMultipleOutputs-out-0:
           destination: author-evaluation-passed
           content-type: application/*+avro
-#        singleInputMultipleOutputs-out-1:
-#          destination: author-evaluation-failed
-#          content-type: application/*+avro
+        singleInputMultipleOutputs-out-1:
+          destination: author-evaluation-failed
+          content-type: application/*+avro
