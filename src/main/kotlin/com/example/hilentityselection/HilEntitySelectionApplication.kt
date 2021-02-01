@@ -24,8 +24,9 @@ class HilEntitySelectionApplication(val logger: Logger = LoggerFactory.getLogger
     @Bean
     fun singleInputMultipleOutputs(): Function<Flux<GenericRecord>, Tuple2<Flux<GenericRecord>, Flux<GenericRecord>>> {
         return Function { flux ->
-            val connectedFlux = flux.publish().autoConnect(2)
+            val connectedFlux = flux.publish().autoConnect(3)
 
+            connectedFlux.subscribe{logger.info("Received message{body: $it, schema: ${it.schema}}")}
 
             val passedEntities: Flux<GenericRecord> = connectedFlux
                 .filter { it.get("score") as Int > 80 }

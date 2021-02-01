@@ -19,7 +19,7 @@ repositories {
 	maven {url = uri("https://packages.confluent.io/maven/")}
 }
 
-extra["springCloudVersion"] = "2020.0.0"
+extra["springCloudVersion"] = "2020.0.1"
 
 dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -42,14 +42,7 @@ dependencies {
 	testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 	testImplementation("io.kotest:kotest-property:$kotestVersion")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.springframework.cloud:spring-cloud-stream") {
-		artifact {
-			name = "spring-cloud-stream"
-			extension = "jar"
-			type ="test-jar"
-			classifier = "test-binder"
-		}
-	}
+	testImplementation("org.springframework.cloud:spring-cloud-stream-test-support")
 }
 
 dependencyManagement {

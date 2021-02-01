@@ -1,0 +1,1 @@
+{"value_schema": "{\"type\": \"record\", \"name\": \"Entity\", \"fields\": [{\"name\": \"name\", \"type\": \"string\"}, {\"name\": \"score\", \"type\": \"int\"}]}", "records": [{"value": {"name": "author", "score": 50}}]}
